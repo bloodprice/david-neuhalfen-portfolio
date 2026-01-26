@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>bloodprice.com</title>
+
+  <script>
+    function PupUp(formName, selName){
+      var s = document.forms[formName][selName];
+      var url = s.options[s.selectedIndex].value;
+      if(!url){
+        s.selectedIndex = 0;
+        return;
+      }
+
+      // Keep desktop behavior (popup window), but make mobile reliable (same-tab navigation)
+      var isMobile = window.matchMedia && window.matchMedia("(max-width: 600px)").matches;
+      if (isMobile) {
+        window.location.href = url;
+      } else {
+        window.open(url, "dummy", "");
+      }
+
+      s.selectedIndex = 0;
+    }
+  </script>
+
+  <!-- DESKTOP (default): keep your original styling/behavior -->
+  <style>
+    select{ background-color:#000; border:1px solid #333; font-size:10px; color:#ccc; font-family:Verdana,Arial,Helvetica,sans-serif; width:180px; }
+    textarea{ background-color:#000; border:1px solid #333; font-size:11px; color:#ccc; font-family:Verdana,Arial,Helvetica,sans-serif; }
+    body{ margin:0; }
+  </style>
+
+  <style>
+    body {
+      background-image: url("images/cover_art.jpg");
+      background-repeat: repeat;
+      background-size: 500px;
+    }
+  </style>
+
+  <!-- MOBILE (overrides): separate mobile experience without changing desktop -->
+  <style>
+    @media screen and (max-width: 600px){
+      /* make the image and controls fit the screen */
+      img.hero{
+        width: 100% !important;
+        max-width: 500px;
+        height: auto;
+        display: block;
+      }
+
+      select{
+        width: 100% !important;
+        max-width: 500px;
+        font-size: 16px; /* prevents iOS zoom */
+        box-sizing: border-box;
+      }
+
+      textarea{
+        width: 100% !important;
+        max-width: 500px;
+        font-size: 16px; /* prevents iOS zoom */
+        box-sizing: border-box;
+      }
+
+      /* add a little breathing room on phones */
+      .mobile-pad{ padding: 12px; box-sizing: border-box; }
+    }
+  </style>
+</head>
+
+<body bgcolor="#000000" text="#ffffff" link="#3a758b" vlink="#8b1e31" alink="#fe2a04" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+  <div class="mobile-pad">
+
+    <img class="hero" src="images/band_picture.jpg" width="500" alt="">
+
+    <table cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+          <td>
+            <form name="myForm">
+              <select name="LINKS" size="1" onchange="PupUp('myForm','LINKS')">
+                <option value="" selected="selected">MUSIC</option>
+                <option value="">__________________________</option>
+                <option value="https://bloodprice.bandcamp.com/album/no-name-1-and-all-is-love-2">bandcamp</option>
+                <option value="https://www.youtube.com/channel/UCqRO3o_TF-TKfkIlkcx46rA">youtube</option>
+                <option value="https://music.apple.com/us/artist/blood-price/1702461778">apple music</option>
+                <option value="https://open.spotify.com/artist/7onEVXe55WzI2C8v3slVV3">spotify</option>
+                <option value="https://www.instagram.com/bloodpricehc/">instagram</option>
+              </select>
+
+              <select name="LINKS2" size="1" onchange="PupUp('myForm','LINKS2')">
+                <option value="" selected="selected">MERCHANDISE</option>
+                <option value="">__________________________</option>
+                <option value="https://bloodprice.bandcamp.com/album/no-name-1-and-all-is-love-2">bandcamp (no merch yet!!!)</option>
+              </select>
+
+              <select name="LINKS3" size="1" onchange="PupUp('myForm','LINKS3')">
+                <option value="" selected="selected">CONTACT</option>
+                <option value="">__________________________</option>
+                <option value="mailto:bloodpricehc@gmail.com">e mail</option>
+                <option value="https://www.instagram.com/bloodpricehc/">instagram</option>
+              </select>
+
+              <br><br>
+
+              <textarea name="news" rows="10" cols="26">N E W S
+
+01.21.26
++ No Name #1 / And All is Love
+
+1.24.26
++ Show @ 101
+              </textarea>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
