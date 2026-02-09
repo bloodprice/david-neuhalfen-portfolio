@@ -1,128 +1,373 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>bloodprice.com</title>
-
-  <script>
-    function PupUp(formName, selName){
-      var s = document.forms[formName][selName];
-      var url = s.options[s.selectedIndex].value;
-      if(!url){
-        s.selectedIndex = 0;
-        return;
-      }
-
-      // Keep desktop behavior (popup window), but make mobile reliable (same-tab navigation)
-      var isMobile = window.matchMedia && window.matchMedia("(max-width: 600px)").matches;
-      if (isMobile) {
-        window.location.href = url;
-      } else {
-        window.open(url, "dummy", "");
-      }
-
-      s.selectedIndex = 0;
-    }
-  </script>
-
-  <!-- DESKTOP (default): keep your original styling/behavior -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Index — 2003-style</title>
   <style>
-    select{ background-color:#000; border:1px solid #333; font-size:10px; color:#ccc; font-family:Verdana,Arial,Helvetica,sans-serif; width:180px; }
-    textarea{ background-color:#000; border:1px solid #333; font-size:11px; color:#ccc; font-family:Verdana,Arial,Helvetica,sans-serif; }
-    body{ margin:0; }
-  </style>
-
-  <style>
-    body {
-      background-image: url("images/cover_art.jpg");
-      background-repeat: repeat;
-      background-size: 500px;
+    :root{
+      --bg: #f4f1e9;
+      --text: #000;
+      --muted: #444;
+      --rule: #000;
+      --link: #000;
+      --w: 780px;
     }
-  </style>
 
-  <!-- MOBILE (overrides): separate mobile experience without changing desktop -->
-  <style>
-    @media screen and (max-width: 600px){
-      /* make the image and controls fit the screen */
-      img.hero{
-        width: 100% !important;
-        max-width: 500px;
-        height: auto;
-        display: block;
-      }
-
-      select{
-        width: 100% !important;
-        max-width: 500px;
-        font-size: 16px; /* prevents iOS zoom */
-        box-sizing: border-box;
-      }
-
-      textarea{
-        width: 100% !important;
-        max-width: 500px;
-        font-size: 16px; /* prevents iOS zoom */
-        box-sizing: border-box;
-      }
-
-      /* add a little breathing room on phones */
-      .mobile-pad{ padding: 12px; box-sizing: border-box; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      line-height: 1.25;
     }
+
+    /* page */
+    .site{
+      width: var(--w);
+      margin: 16px auto 24px;
+    }
+
+    /* header */
+    .top{
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+    .top .left{
+      min-width: 260px;
+    }
+    .name{
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+    .meta{
+      color: var(--muted);
+    }
+    .top .right{
+      text-align: left;
+      min-width: 260px;
+    }
+    .tiny-links a{
+      color: var(--link);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      margin-right: 10px;
+    }
+    .tiny-links a:hover{ border-bottom-color: var(--link); }
+
+    /* columns */
+    .columns{
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    /* section blocks */
+    .section{
+      margin-bottom: 14px;
+    }
+    .section-title{
+      font-weight: bold;
+      text-transform: lowercase;
+      margin: 0 0 4px;
+    }
+    .rule{
+      border-top: 1px dotted var(--rule);
+      margin: 0 0 6px;
+      height: 0;
+    }
+
+    /* item list */
+    .list{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .item{
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin: 0 0 3px;
+    }
+    .sq{
+      width: 7px;
+      height: 7px;
+      background: #000;
+      flex: 0 0 7px;
+      margin-top: 3px; /* aligns with text */
+    }
+    .item a{
+      color: var(--link);
+      text-decoration: none;
+      white-space: nowrap;        /* force single line */
+      overflow: hidden;           /* prevent wrapping overflow */
+      text-overflow: ellipsis;    /* show ... if too long */
+      display: block;
+    }
+    .item a:hover{
+      text-decoration: underline;
+    }
+    .note{
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    /* small image grid (add more thumbnails easily) */
+    .thumbgrid{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(66px, 1fr));
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .thumb{
+      border: 1px solid #000;
+      background: #fff;
+      display: block;
+      padding: 2px;
+      aspect-ratio: 1 / 1;   /* force square tiles */
+      overflow: hidden;
+    }
+    .thumb img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;     /* fill square without distortion */
+      display: block;
+    }
+
+    /* footer */
+    .footer{
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+    }
+
+    /* optional: make it feel non-responsive (classic fixed page) */
+    body { min-width: calc(var(--w) + 40px); }
+
+    /* popout */
+    .popout{
+      position: fixed;
+      left: 50%;
+      top: 90px;
+      transform: translateX(-50%);
+      width: 420px;
+      background: var(--bg);
+      border: 1px solid #000;
+      padding: 10px;
+      z-index: 9999;
+      display: none;
+    }
+    .popout.open{ display: block; }
+
+    .popout-head{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .popout-title{
+      font-weight: bold;
+      font-size: 11px;
+    }
+    .popout-close{
+      font: inherit;
+      font-size: 11px;
+      border: 1px solid #000;
+      background: transparent;
+      padding: 1px 6px;
+      cursor: pointer;
+    }
+    .popout-body{
+      border-top: 1px dotted #000;
+      padding-top: 6px;
+      color: var(--text);
+    }
+    .popout-body ul{
+      margin: 6px 0 0 16px;
+      padding: 0;
+    }
+
+    .popout-dim{
+      position: fixed;
+      inset: 0;
+      background: transparent; /* keep it classic: no dark overlay */
+      display: none;
+      z-index: 9998;
+    }
+    .popout-dim.open{ display: block; }
   </style>
 </head>
 
-<body bgcolor="#000000" text="#ffffff" link="#3a758b" vlink="#8b1e31" alink="#fe2a04" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<body>
+  <div class="site">
+    <header class="top">
+      <div class="left">
+        <div class="name">David Neuhalfen</div>
+        <div class="meta">record producer &amp; musician</div>
+        <div class="meta">location: college station (USA)</div>
+      </div>
 
-  <div class="mobile-pad">
+      <div class="right">
+        <div class="meta">t/new number : +00 000 000 000</div>
+        <div class="tiny-links">
+          <a href="#">contact</a>
+          <a href="#">cv</a>
+        </div>
+      </div>
+    </header>
 
-    <img class="hero" src="images/band_picture.jpg" width="500" alt="">
+    <main class="columns">
+      <!-- Column 1 -->
+      <div>
+        <div class="section">
+          <p class="section-title">records</p>
+          <div class="rule"></div>
+                    <ul class="list">
+            <li class="item"><span class="sq"></span><a href="#" data-record="blood-price-2023">blood price, sept.2023</a></li>
+            <li class="item"><span class="sq"></span><a href="#" data-record="catalyst-2023">catalyst the band, oct.2023</a></li>
+            <li class="item"><span class="sq"></span><a href="#" data-record="blue-tongue-2024">blue tongue, may.2024</a></li>
+            <li class="item"><span class="sq"></span><a href="#" data-record="blue-tongue-2025">blue tongue, mar.2025</a></li>
+            <li class="item"><span class="sq"></span><a href="#" data-record="blood-price-2025">blood price, jan.2025</a></li>
+          </ul>
 
-    <table cellspacing="0" cellpadding="0" border="0">
-      <tbody>
-        <tr>
-          <td>
-            <form name="myForm">
-              <select name="LINKS" size="1" onchange="PupUp('myForm','LINKS')">
-                <option value="" selected="selected">MUSIC</option>
-                <option value="">__________________________</option>
-                <option value="https://bloodprice.bandcamp.com/album/no-name-1-and-all-is-love-2">bandcamp</option>
-                <option value="https://www.youtube.com/channel/UCqRO3o_TF-TKfkIlkcx46rA">youtube</option>
-                <option value="https://music.apple.com/us/artist/blood-price/1702461778">apple music</option>
-                <option value="https://open.spotify.com/artist/7onEVXe55WzI2C8v3slVV3">spotify</option>
-                <option value="https://www.instagram.com/bloodpricehc/">instagram</option>
-              </select>
+          <!-- thumbnails below list -->
+          <div class="thumbgrid">
+            <a class="thumb" href="#" data-record="blood-price-2023" title="blood price — sept.2023">
+              <img src="images/bp1.jpg" alt="Blood Price cover 1">
+            </a>
+            <a class="thumb" href="#" data-record="catalyst-2023" title="catalyst the band — oct.2023">
+              <img src="images/catalyst1.jpg" alt="Catalyst the Band cover">
+            </a>
+            <a class="thumb" href="#" data-record="blue-tongue-2024" title="blue tongue — may.2024">
+              <img src="images/bt1.jpg" alt="Blue Tongue cover 1">
+            </a>
+            <a class="thumb" href="#" data-record="blue-tongue-2025" title="blue tongue — mar.2025">
+              <img src="images/bt2.jpg" alt="Blue Tongue cover 2">
+            </a>
+            <a class="thumb" href="#" data-record="blood-price-2025" title="blood price — jan.2025">
+              <img src="images/bp2.jpg" alt="Blood Price cover 2">
+            </a>
+          </div>
+        </div>
 
-              <select name="LINKS2" size="1" onchange="PupUp('myForm','LINKS2')">
-                <option value="" selected="selected">MERCHANDISE</option>
-                <option value="">__________________________</option>
-                <option value="https://bloodprice.bandcamp.com/album/no-name-1-and-all-is-love-2">bandcamp (no merch yet!!!)</option>
-              </select>
-
-              <select name="LINKS3" size="1" onchange="PupUp('myForm','LINKS3')">
-                <option value="" selected="selected">CONTACT</option>
-                <option value="">__________________________</option>
-                <option value="mailto:bloodpricehc@gmail.com">e mail</option>
-                <option value="https://www.instagram.com/bloodpricehc/">instagram</option>
-              </select>
-
-              <br><br>
-
-              <textarea name="news" rows="10" cols="26">N E W S
-
-01.21.26
-+ No Name #1 / And All is Love
-
-1.24.26
-+ Show @ 101
-              </textarea>
-            </form>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <footer class="footer">
+      <div>&copy; 2026 David Neuhalfen. All rights reserved.</div>
+    </footer>
   </div>
 
+  <!-- credits popout -->
+  <div id="popoutDim" class="popout-dim" aria-hidden="true"></div>
+
+  <aside id="creditsPopout" class="popout" role="dialog" aria-modal="false" aria-hidden="true">
+    <div class="popout-head">
+      <div id="popoutTitle" class="popout-title">credits</div>
+      <button id="popoutClose" class="popout-close" type="button">x</button>
+    </div>
+    <div id="popoutBody" class="popout-body"></div>
+  </aside>
+
+  <script>
+    // Edit these credits any time.
+    const CREDITS = {
+      "blood-price-2023": {
+        title: "blood price, VISION (1.sept.2023)",
+        lines: [
+          "music, lyrics",
+          "bass, vocals",
+          "mix, master engineer",
+          "producer"
+        ]
+      },
+      "catalyst-2023": {
+        title: "catalyst the band, Now I'm Older (27.oct.2023)",
+        lines: [
+          "mix, master engineer"
+        ]
+      },
+      "blue-tongue-2024": {
+        title: "blue tongue, Remains (2.may.2024)",
+        lines: [
+          "mix, master engineer"
+        ]
+      },
+      "blue-tongue-2025": {
+        title: "blue tongue, Carcass in the Cellar (14.mar.2025)",
+        lines: [
+          "editing",
+          "mix engineer (assistant)"
+        ]
+      },
+      "blood-price-2025": {
+        title: "blood price, No Name #1 / And All is Love (26.jan.2026)",
+        lines: [
+          "music, lyrics",
+          "bass, vocals",
+          "mix, master engineer",
+          "producer"
+        ]
+      }
+    };
+
+    const popout = document.getElementById("creditsPopout");
+    const dim = document.getElementById("popoutDim");
+    const titleEl = document.getElementById("popoutTitle");
+    const bodyEl = document.getElementById("popoutBody");
+    const closeBtn = document.getElementById("popoutClose");
+
+    function openPopout(recordKey){
+      const entry = CREDITS[recordKey];
+      if(!entry) return;
+
+      titleEl.textContent = entry.title;
+
+      const ul = document.createElement("ul");
+      entry.lines.forEach(line => {
+        const li = document.createElement("li");
+        li.textContent = line;
+        ul.appendChild(li);
+      });
+
+      bodyEl.innerHTML = "";
+      bodyEl.appendChild(ul);
+
+      popout.classList.add("open");
+      dim.classList.add("open");
+      popout.setAttribute("aria-hidden", "false");
+      dim.setAttribute("aria-hidden", "false");
+    }
+
+    function closePopout(){
+      popout.classList.remove("open");
+      dim.classList.remove("open");
+      popout.setAttribute("aria-hidden", "true");
+      dim.setAttribute("aria-hidden", "true");
+    }
+
+    // Click on record links
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest('a[data-record]');
+      if(!a) return;
+
+      e.preventDefault();
+      openPopout(a.getAttribute("data-record"));
+    });
+
+    // Close interactions
+    closeBtn.addEventListener("click", closePopout);
+    dim.addEventListener("click", closePopout);
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape") closePopout();
+    });
+  </script>
 </body>
 </html>
